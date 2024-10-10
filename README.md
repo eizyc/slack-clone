@@ -8,6 +8,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 + Start the Convex `bunx convex dev`
 + Start Next.js `bun dev`
++ Add shadcn components `bunx --bun shadcn@latest add xxxx`
 
 
 ## Getting Started
