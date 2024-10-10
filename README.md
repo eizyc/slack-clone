@@ -1,5 +1,15 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Link
++ [Convex](https://www.convex.dev/)
++ [Convex Auth](https://labs.convex.dev/auth/config/oauth)
+
+## Scripts
+
++ Start the Convex `bunx convex dev`
++ Start Next.js `bun dev`
+
+
 ## Getting Started
 
 First, run the development server:
