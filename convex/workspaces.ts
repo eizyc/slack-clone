@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 
+import { getAuthUserId } from "@convex-dev/auth/server";
 import { auth } from "./auth";
 import { mutation, query } from "./_generated/server";
 
@@ -8,7 +9,7 @@ export const create = mutation({
     name: v.string(),
   },
   handler: async (ctx, args) => {
-    const userId = await auth.getUserId(ctx);
+    const userId = await getAuthUserId(ctx);
 
     if (!userId) {
       throw new Error("Unauthorized");
@@ -31,7 +32,6 @@ export const create = mutation({
 export const get = query({
   args: {},
   handler: async (ctx) => {
-
 
     const workspaces = await ctx.db
       .query("workspaces")
