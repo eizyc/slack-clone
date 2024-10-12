@@ -254,15 +254,23 @@ export const remove = mutation({
       throw new Error("Unauthorized");
     }
 
-    const [members] = await Promise.all([
+    const [members, channels] = await Promise.all([
       ctx.db
         .query("members")
+        .withIndex("by_workspace_id", (q) => q.eq("workspaceId", args.id))
+        .collect(),
+      ctx.db
+        .query("channels")
         .withIndex("by_workspace_id", (q) => q.eq("workspaceId", args.id))
         .collect(),
     ]);
 
     for (const member of members) {
       await ctx.db.delete(member._id)
+    }
+
+    for (const channel of channels) {
+      await ctx.db.delete(channel._id)
     }
 
     await ctx.db.delete(args.id);
