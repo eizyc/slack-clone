@@ -3,6 +3,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Link
 + [Convex](https://www.convex.dev/)
 + [Convex Auth](https://labs.convex.dev/auth/config/oauth)
++ [Quill Rich Text Editor](https://quilljs.com/)
++ [Using Quill with React](https://quilljs.com/playground/react)
 
 ## Scripts
 
