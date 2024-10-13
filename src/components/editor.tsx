@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 import { Hint } from "./hint";
 import { Button } from "./ui/button";
+import { EmojiPopover } from "./emoji-popover";
 
 import "quill/dist/quill.snow.css";
 
@@ -132,6 +133,11 @@ const Editor = ({
     }
   };
 
+  const onEmojiSelect = (emoji: any) => {
+    const quill = quillRef.current;
+    quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
+  };
+
   return (
     <div className="flex flex-col">
       <div className={cn(
@@ -150,13 +156,15 @@ const Editor = ({
               <PiTextAa className="size-4" />
             </Button>
           </Hint>
-          <Button
-            disabled={disabled}
-            size="iconSm"
-            variant="ghost"
-          >
-            <Smile className="size-4" />
-          </Button>
+          <EmojiPopover onEmojiSelect={onEmojiSelect}>
+            <Button
+              disabled={disabled}
+              size="iconSm"
+              variant="ghost"
+            >
+              <Smile className="size-4" />
+            </Button>
+          </EmojiPopover>
           {variant === "create" && (
             <Hint label="Image">
               <Button
