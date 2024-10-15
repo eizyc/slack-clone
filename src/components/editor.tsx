@@ -230,7 +230,12 @@ const Editor = ({
               </Button>
               <Button
                 disabled={disabled || isEmpty}
-                onClick={() => {}}
+                onClick={() => {
+                  onSubmit({
+                    body: JSON.stringify(quillRef.current?.getContents()),
+                    image,
+                  })
+                }}
                 size="sm"
                 className="bg-[#007a5a] hover:bg-[#007a5a]/80 text-white"
               >
