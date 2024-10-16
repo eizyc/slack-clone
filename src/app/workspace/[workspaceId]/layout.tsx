@@ -4,6 +4,7 @@ import { Sidebar } from "./sidebar";
 import { Toolbar } from "./toolbar";
 
 import { Thread } from "@/features/messages/components/thread";
+import { Profile } from "@/features/members/components/profile";
 import { WorkspaceSidebar } from "./workspace-sidebar";
 
 import { usePanel } from "@/hooks/use-panel";
@@ -17,9 +18,9 @@ interface WorkspaceIdLayoutProps {
 
 const WorkspaceIdLayout = ({ children }: WorkspaceIdLayoutProps) => {
 
-  const { parentMessageId, onClose } = usePanel();
+  const { parentMessageId, profileMemberId, onClose } = usePanel();
 
-  const showPanel = !!parentMessageId;
+  const showPanel = !!parentMessageId || !!profileMemberId;
 
   return (
     <div className="h-full">
@@ -50,7 +51,12 @@ const WorkspaceIdLayout = ({ children }: WorkspaceIdLayoutProps) => {
                     messageId={parentMessageId as Id<"messages">}
                     onClose={onClose}
                  />
-                )  : (
+                )  : profileMemberId ? (
+                  <Profile
+                    memberId={profileMemberId as Id<"members">}
+                    onClose={onClose}
+                  />
+                ) : (
                   <div className="flex h-full items-center justify-center">
                     <Loader className="size-5 animate-spin text-muted-foreground" />
                   </div>
