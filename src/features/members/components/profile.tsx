@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { AlertTriangle, ChevronDownIcon, Loader, MailIcon, XIcon } from "lucide-react";
 
@@ -16,6 +17,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { useGetMember } from "../api/use-get-member";
+import { useUpdateMember } from "../api/use-update-member";
+import { useRemoveMember } from "../api/use-remove-member";
 import { useCurrentMember } from "../api/use-current-member";
 
 import { Id } from "../../../../convex/_generated/dataModel";
@@ -46,6 +49,58 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
   const { data: currentMember, isLoading: isLoadingCurrentMember } = useCurrentMember({
     workspaceId
   });
+
+  const { mutate: updateMember, isPending: isUpdatingMember } = useUpdateMember();
+  const { mutate: removeMember, isPending: isRemovingMember } = useRemoveMember();
+
+  const onRemove = async () => {
+    const ok = await confirmRemove();
+
+    if (!ok) return;
+
+    removeMember({ id: memberId }, {
+      onSuccess: () => {
+        toast.success("Member removed");
+        onClose();
+      },
+      onError: () => {
+        toast.error("Failed to remove member");
+      }
+    })
+  };
+
+  const onLeave = async () => {
+    const ok = await confirmLeave();
+
+    if (!ok) return;
+
+    removeMember({ id: memberId }, {
+      onSuccess: () => {
+        router.replace("/");
+        toast.success("You left the workspace");
+        onClose();
+      },
+      onError: () => {
+        toast.error("Failed to leave the workspace");
+      }
+    })
+  };
+
+  const onUpdate = async (role: "admin" | "member") => {
+    const ok = await confirmUpdate();
+
+    if (!ok) return;
+
+    updateMember({ id: memberId, role }, {
+      onSuccess: () => {
+        toast.success("Role changed");
+        onClose();
+      },
+      onError: () => {
+        toast.error("Failed to change role");
+      }
+    });
+  };
 
   if (isLoadingMember || isLoadingCurrentMember) {
     return (
@@ -116,7 +171,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
                   <DropdownMenuContent className="w-full">
                     <DropdownMenuRadioGroup
                       value={member.role}
-                      onValueChange={() => {}}
+                      onValueChange={(role) => onUpdate(role as "admin" | "member")}
                     >
                       <DropdownMenuRadioItem value="admin">
                         Admin
@@ -127,14 +182,14 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
                     </DropdownMenuRadioGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                <Button onClick={()=>{}} variant="outline" className="w-full">
+                <Button onClick={onRemove} variant="outline" className="w-full">
                   Remove
                 </Button>
               </div>
             ) : currentMember?._id === memberId &&
               currentMember?.role !== "admin" ? (
                 <div className="mt-4">
-                  <Button onClick={()=>{}} variant="outline" className="w-full">
+                  <Button onClick={onLeave} variant="outline" className="w-full">
                     Leave
                   </Button>
                 </div>
