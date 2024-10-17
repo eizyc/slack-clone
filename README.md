@@ -6,6 +6,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 + [Convex Paginated Queries](https://docs.convex.dev/database/pagination)
 + [Quill Rich Text Editor](https://quilljs.com/)
 + [Using Quill with React](https://quilljs.com/playground/react)
++ [Using Convex with Vercel](https://docs.convex.dev/production/hosting/vercel)
++ [Deploying Your App to Production](https://docs.convex.dev/production)
++ [Convex Auth Production](https://labs.convex.dev/auth/production)
 
 ## Scripts
 
